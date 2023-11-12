@@ -1,0 +1,5 @@
+{
+    "pythonPort" : 5000,
+    "jsPort" : 3000,
+    "dataset" : "./dataset/Phishing_Email.csv"
+}

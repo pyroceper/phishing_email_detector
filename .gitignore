@@ -1,0 +1,6 @@
+**/__pycache__/
+*.pyc 
+**/node_modules/
+**/package-lock.json
+**/dataset/
+**/node_modules/
