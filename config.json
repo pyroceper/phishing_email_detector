@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 {
     "pythonPort" : 5000,
     "jsPort" : 3000,
     "dataset" : "./dataset/Phishing_Email.csv"
 }
+=======
+
+>>>>>>> a48252b727a837fed3435ecba6f07685eb3446d6
