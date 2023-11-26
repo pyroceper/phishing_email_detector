@@ -9,12 +9,6 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 app.get('/', (req, res) => {
 
-    // res.send(`
-    //     <h1> Phishing Email Test </h1>
-    //     <form action="/validate" method="post">
-    //         <button type="submit">Train Model</button>
-    //     </form>
-    // `);
     res.sendFile(path.join(__dirname, 'web/index.html'));
 
 });
@@ -29,13 +23,7 @@ app.post('/validate', async (req, res) => {
         }
 
         const dat = response.data;
-        // res.send(`
-        // <h1> Phishing Email Test </h1>
-        // <textarea name="email" placeholder="Enter email contents here..." form="validate-frm"></textarea><br><br>
-        //     <form action="/classify" id="validate-frm" method="post">
-        //         <button type="submit">Classify Email</button>
-        //     </form>
-        // `);
+
         res.sendFile(path.join(__dirname, 'web/validate.html'));
 
     } catch(error) {
