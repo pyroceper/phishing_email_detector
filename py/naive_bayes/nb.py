@@ -1,4 +1,5 @@
 from csv_reader import open_csv
+from cache_model import save_model, check_cache, load_model
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 #debug
@@ -38,9 +39,14 @@ class NaiveBayes:
         self.accuracy = accuracy_score(y_test, y_pred)
         self.report = classification_report(y_test, y_pred)
 
+        if check_cache("./cache/nb_classifier") == False:
+            save_model("./cache/nb_classifier", self.nb_classifier)
+
         pass
 
     def predict(self, user_input):
+        self.nb_classifier = load_model("./cache/nb_classifier")
+       
         user_input = user_input.lower()
         user_input_tfidf = self.vectorizer.transform([user_input])
 
@@ -48,5 +54,7 @@ class NaiveBayes:
 
         if prediction[0] == "Phishing Email":
             self.result = True
+            return
+        self.result = False
 
         pass
