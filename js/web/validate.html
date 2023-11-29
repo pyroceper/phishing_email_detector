@@ -8,22 +8,24 @@
     <title>Phishing Email Detector</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container-sm">
+        <h1 class="pt-4" style="text-align: center;">Phishing Email Test</h1>
+        <hr class="hr"/><br>
         <div class="row align-items-start">
-            <div class="col">
-                <h1>Phishing Email Test</h1>
+            <!-- <div class="col"></div> -->
+            <!-- <div class="col-md-5"> -->
                 <div class="form-floating pt-2">
-                    <textarea class="form-control ml-4" name="email" form="validate-frm" id="txtarea"></textarea>
-                    <label for="txtarea">Enter Email contents here....</label>
-                    <div class="pt-2">
+                    <textarea class="form-control" name="email" form="validate-frm" id="txtarea" style="height: 300px;"></textarea>
+                    <label class="pl-2" for="txtarea">Email Text</label>
+                    <div class="text-center pt-2">
                         <form action="/classify" id="validate-frm" method="post">
-                            <button type="submit" class="btn btn-primary">Classify Email</button>
+                            <button type="submit" class="btn btn-primary mt-4">Classify Email</button>
                         </form>
                     </div> <!--pt-2-->
                 </div> <!--form-->
-            </div> <!--col-->
-            <div class="col"></div>
-            <div class="col"></div>
+            <!-- </div> col -->
+            <!-- <div class="col"></div> -->
+            <!-- <div class="col"></div> -->
         </div> <!--row-->
     </div> <!--container-->
 </body>

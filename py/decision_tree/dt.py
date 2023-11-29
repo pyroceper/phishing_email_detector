@@ -1,4 +1,5 @@
 from csv_reader import open_csv
+from cache_model import save_model, check_cache, load_model
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from imblearn.over_sampling import RandomOverSampler
@@ -47,9 +48,12 @@ class DecisionTree:
         self.accuracy = accuracy_score(y_test, predictions_dt)
         self.report = classification_report(y_test, predictions_dt)
 
-        pass
+        if check_cache("./cache/dt_classifier") == False:
+            save_model("./cache/dt_classifier", self.dt_classifier)
+
 
     def predict(self, user_input):
+        self.dt_classifier = load_model("./cache/dt_classifier")
 
         user_input_vectorized = self.vectorizer.transform([user_input])
 

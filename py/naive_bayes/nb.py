@@ -42,7 +42,6 @@ class NaiveBayes:
         if check_cache("./cache/nb_classifier") == False:
             save_model("./cache/nb_classifier", self.nb_classifier)
 
-        pass
 
     def predict(self, user_input):
         self.nb_classifier = load_model("./cache/nb_classifier")
