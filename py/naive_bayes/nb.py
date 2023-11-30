@@ -12,9 +12,8 @@ class NaiveBayes:
         self.report = 0
         self.vectorizer = 0
         self.nb_classifier = 0
-        self.result = False
+        self.result = 0
 
-        pass
 
     def train_model(self): 
         df = open_csv("./dataset/Phishing_Email.csv")
@@ -51,9 +50,6 @@ class NaiveBayes:
 
         prediction = self.nb_classifier.predict(user_input_tfidf)
 
-        if prediction[0] == "Phishing Email":
-            self.result = True
-            return
-        self.result = False
+        self.result = str(prediction[0])
 
-        pass
+        

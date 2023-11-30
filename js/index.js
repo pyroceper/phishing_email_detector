@@ -54,7 +54,7 @@ app.post('/classify', async (req, res) => {
         let dtClass= "";
         let svmClass = "";
 
-        (data.nb_result == true) ? nbClass = failClass : nbClass = successClass;
+        (data.nb_result == "Phishing Email") ? nbClass = failClass : nbClass = successClass;
         (data.dt_result == "Phishing Email") ? dtClass = failClass : dtClass = successClass;
         (data.svm_result == "Phishing Email") ? svmClass = failClass : svmClass = successClass;
 
@@ -62,8 +62,28 @@ app.post('/classify', async (req, res) => {
         + ' <tbody><tr><td>Naive Bayes Classifier</td><td>'+ data.nb_phish_prob +'</td><td class='+ nbClass +'>'+ data.nb_result +'</td><td>TODO</td></tr>'
         + '<tr><td>Decision Tree Classifier</td><td>'+ data.dt_phish_prob +'</td><td class='+ dtClass + '>'+ data.dt_result +'</td><td>TODO</td></tr>'
         + '<tr><td>SVM Classifier</td><td>'+ data.svm_phish_prob +'</td><td class='+ svmClass +'>'+ data.svm_result +'</td><td>TODO</td></tr></tbody>'
-        + htmlGen.tableFooter + htmlGen.bootstrapRowEnd + htmlGen.pageFooter);
+        + htmlGen.tableFooter + htmlGen.tableButtons + htmlGen.bootstrapRowEnd + htmlGen.pageFooter);
         //res.json(data);
+
+    } catch(error) {
+        console.error("Error occurred: ", error);
+        res.status(500).json({ error: 'Server error'});
+    }
+});
+
+app.post('/pdf', async(req, res) => {
+    try {
+        const {data} = 'test';
+        const response = await axios.post('http://127.0.0.1:5000/pdf', {data});
+
+        if(response.status !== 200) {
+            throw new Error('Failed to talk to python microservices');
+        }
+
+        const dat = response.data;
+        console.log(dat);
+
+        res.sendFile(path.join(__dirname, 'web/validate.html'));
 
     } catch(error) {
         console.error("Error occurred: ", error);
