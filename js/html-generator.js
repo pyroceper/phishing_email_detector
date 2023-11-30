@@ -15,7 +15,13 @@ const tableHeader = '<table class="table table-striped"><thead><tr><th scope="co
 const tableFooter = '</table>';
 
 const tableButtons = '<div class="text-center"><form action="/pdf" id="pdf-frm" method="post"><button class="btn btn-success">Export to PDF</button>'
-    + '</form><form action="/validate" id="back-frm" class="mt-2" method="post"><button class="btn btn-danger">Back</button></form></div>'
+    + '</form><form action="/validate" id="back-frm" class="mt-2" method="post"><button class="btn btn-danger">Back</button></form></div>';
+
+const reportIncorrect = '</td><td><a href="/correction">Report Incorrect</a></td></tr>'
+
+const correctionButtons = '<div class="text-left"><form action="/safe_correction" id="safe-frm" method="post"><button class="btn btn-success">Safe Email</button>'
+    + '</form><form action="/p_correction" id="phish-frm" class="mt-2" method="post"><button class="btn btn-danger">Phishing Email</button></form></div></div><!--container-->'
+    + '</body></html>';
 
 module.exports = {
     pageHeader: pageHeader,
@@ -24,6 +30,8 @@ module.exports = {
     bootstrapRowEnd: bootstrapRowEnd,
     tableHeader: tableHeader,
     tableFooter: tableFooter,
-    tableButtons: tableButtons
+    tableButtons: tableButtons,
+    reportIncorrect, reportIncorrect,
+    correctionButtons: correctionButtons
 };
 

@@ -7,6 +7,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 const htmlGen = require('./html-generator');
 
+//temp data buffer because of JS variable scoping
+class Databuffer {
+    constructor(buffer) {
+        this.buffer = buffer;
+    }
+}
+databuffer = new Databuffer("");
+
+
 app.get('/', (req, res) => {
 
     res.sendFile(path.join(__dirname, 'web/index.html'));
@@ -46,6 +55,9 @@ app.post('/classify', async (req, res) => {
         const data = response.data;
         console.log(data);
 
+        //store email text in the buffer
+        databuffer.buffer = data.email;
+
         //bootstrap result styling
         const successClass = '"text-primary"';
         const failClass = '"text-danger"';
@@ -59,9 +71,10 @@ app.post('/classify', async (req, res) => {
         (data.svm_result == "Phishing Email") ? svmClass = failClass : svmClass = successClass;
 
         res.send(htmlGen.pageHeader + htmlGen.bootstrapRowStart + '<h4>' + data.email + '</h4>' + htmlGen.tableHeader
-        + ' <tbody><tr><td>Naive Bayes Classifier</td><td>'+ data.nb_phish_prob +'</td><td class='+ nbClass +'>'+ data.nb_result +'</td><td>TODO</td></tr>'
-        + '<tr><td>Decision Tree Classifier</td><td>'+ data.dt_phish_prob +'</td><td class='+ dtClass + '>'+ data.dt_result +'</td><td>TODO</td></tr>'
-        + '<tr><td>SVM Classifier</td><td>'+ data.svm_phish_prob +'</td><td class='+ svmClass +'>'+ data.svm_result +'</td><td>TODO</td></tr></tbody>'
+        + ' <tbody><tr><td>Naive Bayes Classifier (scratch)</td><td>'+ data.nb_phish_prob +'</td><td class='+ nbClass +'>'+ data.nb_result + htmlGen.reportIncorrect
+        + '<tr><td>Naive Bayes Classifier</td><td>'+ data.nb_phish_prob +'</td><td class='+ nbClass +'>'+ data.nb_result + htmlGen.reportIncorrect
+        + '<tr><td>Decision Tree Classifier</td><td>'+ data.dt_phish_prob +'</td><td class='+ dtClass + '>'+ data.dt_result + htmlGen.reportIncorrect
+        + '<tr><td>SVM Classifier</td><td>'+ data.svm_phish_prob +'</td><td class='+ svmClass +'>'+ data.svm_result + htmlGen.reportIncorrect
         + htmlGen.tableFooter + htmlGen.tableButtons + htmlGen.bootstrapRowEnd + htmlGen.pageFooter);
         //res.json(data);
 
@@ -75,6 +88,50 @@ app.post('/pdf', async(req, res) => {
     try {
         const {data} = 'test';
         const response = await axios.post('http://127.0.0.1:5000/pdf', {data});
+
+        if(response.status !== 200) {
+            throw new Error('Failed to talk to python microservices');
+        }
+
+        const dat = response.data;
+        console.log(dat);
+
+        res.sendFile(path.join(__dirname, 'web/validate.html'));
+
+    } catch(error) {
+        console.error("Error occurred: ", error);
+        res.status(500).json({ error: 'Server error'});
+    }
+});
+
+app.get('/correction', (req, res) => {
+    res.send(htmlGen.pageHeader + htmlGen.bootstrapRowStart + '<h4>' + databuffer.buffer + '</h4>' + htmlGen.correctionButtons);
+});
+
+app.post('/safe_correction', async(req, res) => {
+    try {
+        const data = { email: databuffer.buffer};
+        const response = await axios.post('http://127.0.0.1:5000/safe_correction', data);
+
+        if(response.status !== 200) {
+            throw new Error('Failed to talk to python microservices');
+        }
+
+        const dat = response.data;
+        console.log(dat);
+
+        res.sendFile(path.join(__dirname, 'web/validate.html'));
+
+    } catch(error) {
+        console.error("Error occurred: ", error);
+        res.status(500).json({ error: 'Server error'});
+    }
+});
+
+app.post('/p_correction', async(req, res) => {
+    try {
+        const data = {email: databuffer.buffer};
+        const response = await axios.post('http://127.0.0.1:5000/p_correction', data);
 
         if(response.status !== 200) {
             throw new Error('Failed to talk to python microservices');
