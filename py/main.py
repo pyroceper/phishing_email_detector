@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from naive_bayes.nb import NaiveBayes
+from naive_bayes.nb_scratch import NaiveBayesScratch
 from decision_tree.dt import DecisionTree
 from svm.svm import SVM
 from cache_model import check_cache
@@ -8,6 +9,7 @@ from database import Database
 
 app = Flask(__name__)
 nb = 0
+nbs = 0
 dt = 0
 svm = 0
 pdf = 0
@@ -91,6 +93,7 @@ def p_correction():
 if __name__ == '__main__':
     pdf = PDF()
     db = Database()
+    nbs = NaiveBayesScratch()
     nb = NaiveBayes()
     dt = DecisionTree()
     svm = SVM()
