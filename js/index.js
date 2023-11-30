@@ -75,6 +75,7 @@ app.post('/classify', async (req, res) => {
         + '<tr><td>Naive Bayes Classifier</td><td>'+ data.nb_phish_prob +'</td><td class='+ nbClass +'>'+ data.nb_result + htmlGen.reportIncorrect
         + '<tr><td>Decision Tree Classifier</td><td>'+ data.dt_phish_prob +'</td><td class='+ dtClass + '>'+ data.dt_result + htmlGen.reportIncorrect
         + '<tr><td>SVM Classifier</td><td>'+ data.svm_phish_prob +'</td><td class='+ svmClass +'>'+ data.svm_result + htmlGen.reportIncorrect
+        + '<tr><td>BERT Classifier</td><td>Disabled</td><td>Disabled</td><td>Disabled</td></tr>'      
         + htmlGen.tableFooter + htmlGen.tableButtons + htmlGen.bootstrapRowEnd + htmlGen.pageFooter);
         //res.json(data);
 
